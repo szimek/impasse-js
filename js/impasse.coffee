@@ -6,12 +6,12 @@ Function::define = (prop, desc) ->
 # Hack for localStorage in Mobile Safari private browsing mode
 storage = window.localStorage
 try
-	storage.setItem("testPrivateBrowsingMode", "1")
-	storage.removeItem("testPrivateBrowsingMode")
+  storage.setItem("testPrivateBrowsingMode", "1")
+  storage.removeItem("testPrivateBrowsingMode")
 catch error
-	if error.code is DOMException.QUOTA_EXCEEDED_ERR and storage.length is 0
+  if error.code is DOMException.QUOTA_EXCEEDED_ERR and storage.length is 0
     storage = {}
-	else throw error
+  else throw error
 
 
 ig =
