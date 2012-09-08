@@ -310,18 +310,21 @@
         switch (key = event.which) {
           case ig.KEY.PLUS:
             this.currentLevelIndex += 1;
-            return this._onLevelOver();
+            this._onLevelOver();
+            return event.preventDefault();
           case ig.KEY.MINUS:
             this.currentLevelIndex -= 1;
-            return this._onLevelOver();
+            this._onLevelOver();
+            return event.preventDefault();
           case ig.KEY.LEFT:
           case ig.KEY.UP:
           case ig.KEY.RIGHT:
           case ig.KEY.DOWN:
             this.isPlayerMoving = this.update(key);
             if (this.isPlayerMoving) {
-              return this.draw();
+              this.draw();
             }
+            return event.preventDefault();
         }
       }
     };

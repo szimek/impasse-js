@@ -238,12 +238,15 @@ class ig.Game
         when ig.KEY.PLUS
           @currentLevelIndex += 1
           @_onLevelOver()
+          event.preventDefault()
         when ig.KEY.MINUS
           @currentLevelIndex -= 1
           @_onLevelOver()
+          event.preventDefault()
         when ig.KEY.LEFT, ig.KEY.UP, ig.KEY.RIGHT, ig.KEY.DOWN
           @isPlayerMoving = @update(key)
           @draw() if @isPlayerMoving
+          event.preventDefault()
 
   _afterPlayerMoved: (event) ->
     # Enable entity animation that may have been disabled by its update method
