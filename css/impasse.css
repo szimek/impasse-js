@@ -19,9 +19,21 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 
 * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
 
+p {
+  margin: 13px 0;
+}
+
+strong {
+  font-weight: bold;
+}
+
+p {
+}
+
 html, body {
-  background-color: #000;
-  color: #fff;
+  background-color: #111111;
+  color: #FFF;
+  margin-top: 30px;
 }
 
 /* A single cell (including margin) is 60px x 60px */
@@ -249,4 +261,25 @@ html, body {
 }
 #impasse .entity.covered:before {
   content: '';
+}
+
+/* Non-game related styles */
+#description {
+  width: 550px;
+  margin: 30px auto;
+  padding: 10px;
+
+  border-radius: 5px;
+
+  background-color: #212121;
+  color: #9D9D9D;
+
+  line-height: 18px;
+  font-size: 13px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
+#description a {
+  color: inherit;
 }
