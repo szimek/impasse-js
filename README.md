@@ -5,3 +5,7 @@ minimalist puzzle game" -  originally written by [Wanderlands](http://wanderland
 It should work on any browser that supports CSS3 animations (i.e. Chrome, Safari, Firefox and Opera 12.50 alpha).
 
 __TIP__: You can use '+' and '-' to skip levels.
+
+### Known browser issues
+#### Firefox
+* Dashed borders around hidden elements are shown as solid (https://bugzilla.mozilla.org/show_bug.cgi?id=382721)
