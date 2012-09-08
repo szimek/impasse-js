@@ -1,3 +1,14 @@
+#
+# jQuery throttle / debounce - v1.1 - 3/7/2010
+# http://benalman.com/projects/jquery-throttle-debounce-plugin/
+#
+# Copyright (c) 2010 "Cowboy" Ben Alman
+# Dual licensed under the MIT and GPL licenses.
+# http://benalman.com/about/license/
+#
+`(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);`
+
+
 # Helper for defining getters/setters in CoffeeScript - https://gist.github.com/1599437
 Function::define = (prop, desc) ->
   Object.defineProperty this.prototype, prop, desc
@@ -103,9 +114,12 @@ class ig.Game
     document.addEventListener "keydown", (event) =>
       @_onKeyDown(event)
 
+    # Hackish way to ensure that @_afterPlayerMoved is called just once
+    debouncedAfterPlayerMoved = Cowboy.debounce(100, true, (event) => @_afterPlayerMoved())
     ["transitionend", "webkitTransitionEnd", "oTransitionEnd"].forEach (eventName) =>
       @dom.board.addEventListener eventName, (event) =>
-        @_afterPlayerMoved(event) if event.target.classList.contains("player")
+        entity = event.target
+        debouncedAfterPlayerMoved(event) if entity.classList.contains("player")
 
   update: (direction) ->
     level = @currentLevel
@@ -133,6 +147,7 @@ class ig.Game
     # Reset game state
     @isLevelOver = false
     @isGameOver = false
+    @isPlayerMoving = false
 
     mapping = ig.Game.entitiesMapping
     level = ig.Game.levels[levelNumber]
@@ -213,16 +228,17 @@ class ig.Game
     point.classList.add("active")
 
   _onKeyDown: (event) ->
-    switch key = event.which
-      when ig.KEY.PLUS
-        @currentLevelIndex += 1
-        @_onLevelOver()
-      when ig.KEY.MINUS
-        @currentLevelIndex -= 1
-        @_onLevelOver()
-      when ig.KEY.LEFT, ig.KEY.UP, ig.KEY.RIGHT, ig.KEY.DOWN
-        playerHasMoved = @update(key)
-        @draw() if playerHasMoved
+    unless @isPlayerMoving or @isLevelOver or @isGameOver
+      switch key = event.which
+        when ig.KEY.PLUS
+          @currentLevelIndex += 1
+          @_onLevelOver()
+        when ig.KEY.MINUS
+          @currentLevelIndex -= 1
+          @_onLevelOver()
+        when ig.KEY.LEFT, ig.KEY.UP, ig.KEY.RIGHT, ig.KEY.DOWN
+          @isPlayerMoving = @update(key)
+          @draw() if @isPlayerMoving
 
   _afterPlayerMoved: (event) ->
     # Enable entity animation that may have been disabled by its update method
@@ -233,6 +249,8 @@ class ig.Game
       @_onGameOver()
     else if @isLevelOver
       @_onLevelOver()
+
+    @isPlayerMoving = false
 
   _checkPlayerCollision: ->
     level = @currentLevel
