@@ -164,8 +164,8 @@
       storage["completedLevels"] || (storage["completedLevels"] = JSON.stringify([]));
       this._createLayout();
       this.loadLevel(this.currentLevelIndex, false);
-      document.addEventListener("keydown", function(event) {
-        return _this._onKeyDown(event);
+      document.addEventListener("keyup", function(event) {
+        return _this._onKeyUp(event);
       });
       debouncedAfterPlayerMoved = Cowboy.debounce(100, true, function(event) {
         return _this._afterPlayerMoved();
@@ -297,7 +297,7 @@
       return point.classList.add("active");
     };
 
-    Game.prototype._onKeyDown = function(event) {
+    Game.prototype._onKeyUp = function(event) {
       var key;
       if (!(this.isPlayerMoving || this.isLevelOver || this.isGameOver)) {
         switch (key = event.which) {
