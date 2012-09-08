@@ -111,8 +111,13 @@ class ig.Game
     @loadLevel(@currentLevelIndex, false)
 
     # Handle player input
-    document.addEventListener "keyup", (event) =>
-      @_onKeyUp(event)
+    isCurrentlyPressed = {}
+    document.addEventListener "keydown", (event) =>
+      @_onKeyDown(event) unless isCurrentlyPressed[event.which]
+      isCurrentlyPressed[event.which] = true
+
+    document.addEventListener "keyup", (event) ->
+      isCurrentlyPressed[event.which] = false
 
     # Hackish way to ensure that @_afterPlayerMoved is called just once
     debouncedAfterPlayerMoved = Cowboy.debounce(100, true, (event) => @_afterPlayerMoved())
@@ -227,7 +232,7 @@ class ig.Game
     point = @dom.levelProgress.querySelector(".point[data-level-index='#{levelNumber}']")
     point.classList.add("active")
 
-  _onKeyUp: (event) ->
+  _onKeyDown: (event) ->
     unless @isPlayerMoving or @isLevelOver or @isGameOver
       switch key = event.which
         when ig.KEY.PLUS

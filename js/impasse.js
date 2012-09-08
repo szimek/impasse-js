@@ -158,14 +158,21 @@
     Game.prototype.isGameOver = false;
 
     function Game() {
-      var debouncedAfterPlayerMoved,
+      var debouncedAfterPlayerMoved, isCurrentlyPressed,
         _this = this;
       ig.game = this;
       storage["completedLevels"] || (storage["completedLevels"] = JSON.stringify([]));
       this._createLayout();
       this.loadLevel(this.currentLevelIndex, false);
+      isCurrentlyPressed = {};
+      document.addEventListener("keydown", function(event) {
+        if (!isCurrentlyPressed[event.which]) {
+          _this._onKeyDown(event);
+        }
+        return isCurrentlyPressed[event.which] = true;
+      });
       document.addEventListener("keyup", function(event) {
-        return _this._onKeyUp(event);
+        return isCurrentlyPressed[event.which] = false;
       });
       debouncedAfterPlayerMoved = Cowboy.debounce(100, true, function(event) {
         return _this._afterPlayerMoved();
@@ -297,7 +304,7 @@
       return point.classList.add("active");
     };
 
-    Game.prototype._onKeyUp = function(event) {
+    Game.prototype._onKeyDown = function(event) {
       var key;
       if (!(this.isPlayerMoving || this.isLevelOver || this.isGameOver)) {
         switch (key = event.which) {
