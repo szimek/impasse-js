@@ -6,7 +6,7 @@
 # Dual licensed under the MIT and GPL licenses.
 # http://benalman.com/about/license/
 #
-`(function(b,c){var $=b.jQuery||b.Cowboy||(b.Cowboy={}),a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);`
+`(function(b,c){var $=b.Zepto,a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);`
 
 
 # Helper for defining getters/setters in CoffeeScript - https://gist.github.com/1599437
@@ -22,10 +22,11 @@ try
 catch error
   if error.code is DOMException.QUOTA_EXCEEDED_ERR and storage.length is 0
     storage = {}
-  else throw error
+  else
+    throw error
 
 
-ig =
+window.ig =
   game: null
 
   KEY:
@@ -35,6 +36,12 @@ ig =
     DOWN: 40
     PLUS: 187
     MINUS: 189
+
+  DIRECTION:
+    LEFT: 37
+    UP: 38
+    RIGHT: 39
+    DOWN: 40
 
 class ig.Game
   @entitiesMapping: {
@@ -98,7 +105,7 @@ class ig.Game
   isLevelOver: false
   isGameOver: false
 
-  constructor: () ->
+  constructor: (options={}) ->
     ig.game = @
 
     storage["completedLevels"] ||= JSON.stringify([])
@@ -110,6 +117,17 @@ class ig.Game
     # Load the initial level without fade-in
     @loadLevel(@currentLevelIndex, false)
 
+    if options.fullscreen
+      orientationEvent = if "onorientationchange" of window
+        "orientationchange"
+      else
+        "resize"
+      window.addEventListener orientationEvent, (event) =>
+        @_rescaleLayout()
+
+      @_rescaleLayout()
+
+
     # Handle player input
     isCurrentlyPressed = {}
     document.addEventListener "keydown", (event) =>
@@ -119,8 +137,18 @@ class ig.Game
     document.addEventListener "keyup", (event) ->
       isCurrentlyPressed[event.which] = false
 
+    if options.touch
+      # Disable scrolling on iOS. It also disables zooming.
+      document.ontouchmove = (event) ->
+        event.preventDefault()
+
+      ["swipeLeft", "swipeRight", "swipeUp", "swipeDown"].forEach (eventName) =>
+        $(@dom.overlay).on eventName, (event) =>
+          @_onSwipe(event)
+          event.preventDefault()
+
     # Hackish way to ensure that @_afterPlayerMoved is called just once
-    debouncedAfterPlayerMoved = Cowboy.debounce(100, true, (event) => @_afterPlayerMoved())
+    debouncedAfterPlayerMoved = $.debounce(100, true, (event) => @_afterPlayerMoved())
     ["transitionend", "webkitTransitionEnd", "oTransitionEnd"].forEach (eventName) =>
       @dom.board.addEventListener eventName, (event) =>
         entity = event.target
@@ -128,9 +156,10 @@ class ig.Game
 
   update: (direction) ->
     level = @currentLevel
+    player = level.player
     blocks = level.blocks
 
-    if (playerHasMoved = level.player.update(direction))
+    if (playerHasMoved = player.update(direction))
       blocks.forEach (block) ->
         block.uncover() # TODO move into Entity#update method
         block.update(direction)
@@ -232,6 +261,10 @@ class ig.Game
     point = @dom.levelProgress.querySelector(".point[data-level-index='#{levelNumber}']")
     point.classList.add("active")
 
+  _rescaleLayout: ->
+    scale = window.innerWidth / $(@dom.game).width()
+    $("body").css("zoom", scale)
+
   _onKeyDown: (event) ->
     unless @isPlayerMoving or @isLevelOver or @isGameOver
       switch key = event.which
@@ -244,9 +277,21 @@ class ig.Game
           @_onLevelOver()
           event.preventDefault()
         when ig.KEY.LEFT, ig.KEY.UP, ig.KEY.RIGHT, ig.KEY.DOWN
-          @isPlayerMoving = @update(key)
+          direction = key
+          @isPlayerMoving = @update(direction)
           @draw() if @isPlayerMoving
           event.preventDefault()
+
+  _onSwipe: (event) ->
+    unless @isPlayerMoving or @isLevelOver or @isGameOver
+      direction = switch event.type
+        when "swipeLeft" then ig.DIRECTION.LEFT
+        when "swipeUp" then ig.DIRECTION.UP
+        when "swipeRight" then ig.DIRECTION.RIGHT
+        when "swipeDown" then ig.DIRECTION.DOWN
+
+      @isPlayerMoving = @update(direction)
+      @draw() if @isPlayerMoving
 
   _afterPlayerMoved: (event) ->
     # Enable entity animation that may have been disabled by its update method
@@ -528,7 +573,3 @@ class ig.GreenOBlock extends ig.Entity
   @id: "b"
   @zIndex: 4
   @className: "green_o_block"
-
-
-# Start a new game
-new ig.Game()

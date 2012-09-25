@@ -47,6 +47,7 @@ html, body {
   width: 600px;
   height: 300px;
   margin: auto;
+
   position: relative;
 
   font-family: 'Josefin Sans', sans-serif;
@@ -247,6 +248,8 @@ html, body {
   /* Scale using CSS tranformation, as it doesn't change position of the element. */
   /* Original size is 44px, we want 54px, so the scale is 54px / 44px = 1.23 */
   -webkit-transform: scale(1.23);
+  -moz-transform: scale(1.23);
+  transform: scale(1.23);
   background-color: transparent;
   border:#000000 2px dashed; /* outer border */
 }
