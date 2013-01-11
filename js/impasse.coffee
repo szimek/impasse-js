@@ -147,6 +147,14 @@ class ig.Game
           @_onSwipe(event)
           event.preventDefault()
 
+      # Use Array#filter because of lack of Array#find
+      fullscreenFn = ["requestFullscreen", "mozRequestFullScreen", "webkitRequestFullscreen"].filter((fnName) =>
+        @dom.game[fnName]
+      )[0]
+
+      if fullscreenFn
+        $(@dom.game).on "doubleTap", (event) => @dom.game[fullscreenFn]()
+
     # Hackish way to ensure that @_afterPlayerMoved is called just once
     debouncedAfterPlayerMoved = $.debounce(100, true, (event) => @_afterPlayerMoved())
     ["transitionend", "webkitTransitionEnd", "oTransitionEnd"].forEach (eventName) =>
