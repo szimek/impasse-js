@@ -446,8 +446,10 @@
         return this.isGameOver = true;
       } else {
         completedLevels = JSON.parse(storage["completedLevels"]);
-        completedLevels.push(this.currentLevelIndex);
-        storage["completedLevels"] = JSON.stringify(completedLevels);
+        if (completedLevels.indexOf(this.currentLevelIndex) === -1) {
+          completedLevels.push(this.currentLevelIndex);
+          storage["completedLevels"] = JSON.stringify(completedLevels);
+        }
         return this.currentLevelIndex += 1;
       }
     };

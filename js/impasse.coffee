@@ -343,8 +343,9 @@ class ig.Game
       @isGameOver = true
     else
       completedLevels = JSON.parse(storage["completedLevels"])
-      completedLevels.push(@currentLevelIndex)
-      storage["completedLevels"] = JSON.stringify(completedLevels)
+      if completedLevels.indexOf(@currentLevelIndex) == -1
+        completedLevels.push(@currentLevelIndex)
+        storage["completedLevels"] = JSON.stringify(completedLevels)
 
       @currentLevelIndex += 1
 
