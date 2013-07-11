@@ -88,7 +88,7 @@ class ig.Game
     height: 3
     width: 10
 
-  @define 'currentLevelIndex'
+  @define 'currentLevelIndex',
     get: ->
       Number(@_currentLevelIndex or storage["currentLevel"] or 0)
     set: (value) ->
@@ -271,7 +271,7 @@ class ig.Game
 
   _rescaleLayout: ->
     scale = window.innerWidth / $(@dom.game).width()
-    $("body").css("zoom", scale)
+    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale#})");
 
   _onKeyDown: (event) ->
     unless @isPlayerMoving or @isLevelOver or @isGameOver
@@ -386,7 +386,7 @@ class ig.Entity
   @className: ""
   @showBorderWhenHidden: false
 
-  @define 'isPresent'
+  @define 'isPresent',
     get: ->
       return @_present
     set: (value) ->
