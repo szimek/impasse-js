@@ -341,6 +341,7 @@
 
     Game.prototype._rescaleLayout = function() {
       var scale;
+      $("body").css("" + $.fx.cssPrefix + "transform", "scale(1)");
       scale = window.innerWidth / $(this.dom.game).width();
       return $("body").css("" + $.fx.cssPrefix + "transform", "scale(" + scale + ")");
     };

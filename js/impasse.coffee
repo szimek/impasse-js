@@ -270,8 +270,9 @@ class ig.Game
     point.classList.add("active")
 
   _rescaleLayout: ->
+    $("body").css("#{$.fx.cssPrefix}transform", "scale(1)")
     scale = window.innerWidth / $(@dom.game).width()
-    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale#})");
+    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale#})")
 
   _onKeyDown: (event) ->
     unless @isPlayerMoving or @isLevelOver or @isGameOver
