@@ -2,28 +2,24 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no">
-
-    <link rel="apple-touch-icon"
-          href="http://www.w3.org/html/logo/downloads/HTML5_Logo_64.png" />
-    <link rel="apple-touch-icon-precomposed"
-          href="http://www.w3.org/html/logo/downloads/HTML5_Logo_64.png" />
 
     <title>Impasse JS</title>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable"
+          content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black">
+
+    <link rel="apple-touch-icon-precomposed"
+          href="http://www.w3.org/html/logo/downloads/HTML5_Logo_512.png">
+    <link rel="icon"
+          type="image/png"
+          href="http://www.w3.org/html/logo/downloads/HTML5_Logo_512.png">
+
     <link rel="stylesheet" href="css/impasse.css" >
-    <style>
-      body {
-        margin-top: 0;
-        -webkit-transform-origin: 0% 0%;
-        -moz-transform-origin: 0% 0%;
-        -ms-transform-origin: 0% 0%;
-        transform-origin: 0% 0%;
-      }
-      #impasse {
-        margin: 0;
-      }
-    </style>
+
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-39365077-3']);
@@ -37,7 +33,7 @@
     </script>
   </head>
 
-  <body>
+  <body class="fullscreen" onselectstart="return false">
     <div id="impasse"></div>
     <script src="js/zepto.min.js"></script>
     <script src="js/impasse.js"></script>

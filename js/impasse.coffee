@@ -118,15 +118,9 @@ class ig.Game
     @loadLevel(@currentLevelIndex, false)
 
     if options.fullscreen
-      orientationEvent = if "onorientationchange" of window
-        "orientationchange"
-      else
-        "resize"
-      window.addEventListener orientationEvent, (event) =>
+      window.addEventListener "orientationchange", (event) =>
         @_rescaleLayout()
-
       @_rescaleLayout()
-
 
     # Handle player input
     isCurrentlyPressed = {}
@@ -273,6 +267,9 @@ class ig.Game
     $("body").css("#{$.fx.cssPrefix}transform", "scale(1)")
     scale = window.innerWidth / $(@dom.game).width()
     $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale#})")
+
+    # Try to hide address bar on mobile browsers
+    setTimeout (-> window.scrollTo(0, 1)), 50
 
   _onKeyDown: (event) ->
     unless @isPlayerMoving or @isLevelOver or @isGameOver

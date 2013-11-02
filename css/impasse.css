@@ -35,6 +35,21 @@ html, body {
   color: #FFF;
 }
 
+.fullscreen {
+  -webkit-transform-origin: 0% 0%;
+  -moz-transform-origin: 0% 0%;
+  -ms-transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
+
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 /* A single cell (including margin) is 60px x 60px */
 /* There are 10 columns => 600px */
 /* There are 5 rows (1 for title, 3 for board, 1 for level progress) => 300px */

@@ -163,7 +163,7 @@
     Game.prototype.isGameOver = false;
 
     function Game(options) {
-      var debouncedAfterPlayerMoved, fullscreenFn, isCurrentlyPressed, orientationEvent,
+      var debouncedAfterPlayerMoved, fullscreenFn, isCurrentlyPressed,
         _this = this;
       if (options == null) {
         options = {};
@@ -173,8 +173,7 @@
       this._createLayout();
       this.loadLevel(this.currentLevelIndex, false);
       if (options.fullscreen) {
-        orientationEvent = "onorientationchange" in window ? "orientationchange" : "resize";
-        window.addEventListener(orientationEvent, function(event) {
+        window.addEventListener("orientationchange", function(event) {
           return _this._rescaleLayout();
         });
         this._rescaleLayout();
@@ -343,7 +342,10 @@
       var scale;
       $("body").css("" + $.fx.cssPrefix + "transform", "scale(1)");
       scale = window.innerWidth / $(this.dom.game).width();
-      return $("body").css("" + $.fx.cssPrefix + "transform", "scale(" + scale + ")");
+      $("body").css("" + $.fx.cssPrefix + "transform", "scale(" + scale + ")");
+      return setTimeout((function() {
+        return window.scrollTo(0, 1);
+      }), 50);
     };
 
     Game.prototype._onKeyDown = function(event) {
@@ -896,7 +898,3 @@
   })(ig.Entity);
 
 }).call(this);
-
-/*
-//@ sourceMappingURL=impasse.map
-*/
