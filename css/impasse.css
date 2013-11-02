@@ -68,6 +68,10 @@ html, body {
   text-align: center;
 }
 
+.fullscreen #impasse {
+  margin: 0;
+}
+
 /* Overlay over board element */
 #impasse .overlay {
   width: inherit;
