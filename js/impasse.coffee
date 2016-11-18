@@ -34,6 +34,9 @@ window.ig =
     UP: 38
     RIGHT: 39
     DOWN: 40
+    SHIFT: 16
+    HYPHEN: 173
+    EQUAL: 61
     PLUS: 187
     MINUS: 189
 
@@ -123,13 +126,14 @@ class ig.Game
       @_rescaleLayout()
 
     # Handle player input
-    isCurrentlyPressed = {}
+    @_isCurrentlyPressed = {}
     document.addEventListener "keydown", (event) =>
-      @_onKeyDown(event) unless isCurrentlyPressed[event.which]
-      isCurrentlyPressed[event.which] = true
+      key = event.which
+      @_onKeyDown(event) unless @_isCurrentlyPressed[key]
+      @_isCurrentlyPressed[key] = true
 
-    document.addEventListener "keyup", (event) ->
-      isCurrentlyPressed[event.which] = false
+    document.addEventListener "keyup", (event) =>
+      @_isCurrentlyPressed[event.which] = false
 
     if options.touch
       # Disable scrolling on iOS. It also disables zooming.
@@ -152,7 +156,7 @@ class ig.Game
     # Hackish way to ensure that @_afterPlayerMoved is called just once
     debouncedAfterPlayerMoved = $.debounce(100, true, (event) => @_afterPlayerMoved())
     ["transitionend", "webkitTransitionEnd", "oTransitionEnd"].forEach (eventName) =>
-      @dom.board.addEventListener eventName, (event) =>
+      @dom.board.addEventListener eventName, (event) ->
         entity = event.target
         debouncedAfterPlayerMoved(event) if entity.classList.contains("player")
 
@@ -266,19 +270,21 @@ class ig.Game
   _rescaleLayout: ->
     $("body").css("#{$.fx.cssPrefix}transform", "scale(1)")
     scale = window.innerWidth / $(@dom.game).width()
-    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale#})")
+    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale})")
 
     # Try to hide address bar on mobile browsers
     setTimeout (-> window.scrollTo(0, 1)), 50
 
-  _onKeyDown: (event) ->
+  _onKeyDown: (event) =>
     unless @isPlayerMoving or @isLevelOver or @isGameOver
       switch key = event.which
-        when ig.KEY.PLUS
+        when ig.KEY.PLUS, ig.KEY.EQUAL
+          break unless @_isCurrentlyPressed[ig.KEY.SHIFT]
           @currentLevelIndex += 1
           @_onLevelOver()
           event.preventDefault()
-        when ig.KEY.MINUS
+        when ig.KEY.MINUS, ig.KEY.HYPHEN
+          break unless @_isCurrentlyPressed[ig.KEY.SHIFT]
           @currentLevelIndex -= 1
           @_onLevelOver()
           event.preventDefault()
@@ -315,7 +321,7 @@ class ig.Game
     level = @currentLevel
 
     collidingBlock = null
-    level.blocks.some (block) =>
+    level.blocks.some (block) ->
       (collidingBlock = block) and true if level.player.doesCollideWith(block)
     collidingBlock
 
