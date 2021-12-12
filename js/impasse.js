@@ -362,13 +362,11 @@
     };
 
     Game.prototype._rescaleLayout = function() {
-      var scale;
-      $("body").css($.fx.cssPrefix + "transform", "scale(1)");
-      scale = window.innerWidth / $(this.dom.game).width();
-      $("body").css($.fx.cssPrefix + "transform", "scale(" + scale + ")");
-      return setTimeout((function() {
-        return window.scrollTo(0, 1);
-      }), 50);
+      var game, scale;
+      game = $(this.dom.game);
+      game.css($.fx.cssPrefix + "transform", "scale(1)");
+      scale = window.innerWidth / 600;
+      return game.css($.fx.cssPrefix + "transform", "scale(" + scale + ")");
     };
 
     Game.prototype._onKeyDown = function(event) {

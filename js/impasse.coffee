@@ -268,12 +268,10 @@ class ig.Game
     point.classList.add("active")
 
   _rescaleLayout: ->
-    $("body").css("#{$.fx.cssPrefix}transform", "scale(1)")
-    scale = window.innerWidth / $(@dom.game).width()
-    $("body").css("#{$.fx.cssPrefix}transform", "scale(#{scale})")
-
-    # Try to hide address bar on mobile browsers
-    setTimeout (-> window.scrollTo(0, 1)), 50
+    game = $(@dom.game)
+    game.css("#{$.fx.cssPrefix}transform", "scale(1)")
+    scale = window.innerWidth / 600
+    game.css("#{$.fx.cssPrefix}transform", "scale(#{scale})")
 
   _onKeyDown: (event) =>
     unless @isPlayerMoving or @isLevelOver or @isGameOver
