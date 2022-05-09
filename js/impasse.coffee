@@ -1,14 +1,3 @@
-#
-# jQuery throttle / debounce - v1.1 - 3/7/2010
-# http://benalman.com/projects/jquery-throttle-debounce-plugin/
-#
-# Copyright (c) 2010 "Cowboy" Ben Alman
-# Dual licensed under the MIT and GPL licenses.
-# http://benalman.com/about/license/
-#
-`(function(b,c){var $=b.Zepto,a;$.throttle=a=function(e,f,j,i){var h,d=0;if(typeof f!=="boolean"){i=j;j=f;f=c}function g(){var o=this,m=+new Date()-d,n=arguments;function l(){d=+new Date();j.apply(o,n)}function k(){h=c}if(i&&!h){l()}h&&clearTimeout(h);if(i===c&&m>e){l()}else{if(f!==true){h=setTimeout(i?k:l,i===c?e-m:e)}}}if($.guid){g.guid=j.guid=j.guid||$.guid++}return g};$.debounce=function(d,e,f){return f===c?a(d,e,false):a(d,f,e!==false)}})(this);`
-
-
 # Helper for defining getters/setters in CoffeeScript - https://gist.github.com/1599437
 Function::define = (prop, desc) ->
   Object.defineProperty this.prototype, prop, desc
@@ -173,8 +162,10 @@ class ig.Game
       blocks.forEach (block) ->
         block.cover() if block.isCovered(blocks)
 
-      if (collidingBlock = @_checkPlayerCollision())
-        @_onPlayerCollision(collidingBlock)
+      # Check collisions
+      collidingBlocks = @_checkPlayerCollision()
+      collidingBlocks.forEach (block) =>
+        @_onPlayerCollision(block)
 
     playerHasMoved
 
@@ -318,10 +309,7 @@ class ig.Game
   _checkPlayerCollision: ->
     level = @currentLevel
 
-    collidingBlock = null
-    level.blocks.some (block) ->
-      (collidingBlock = block) and true if level.player.doesCollideWith(block)
-    collidingBlock
+    level.blocks.filter (block) -> level.player.doesCollideWith(block)
 
   _onPlayerCollision: (block) ->
     switch block.constructor
@@ -563,7 +551,7 @@ class ig.PinkMinusBlock extends ig.Entity
   @className: "pink_minus_block hideable"
 
   constructor: (x, y) ->
-    super
+    super(x, y)
     @isPresent = false
 
   update: (direction) ->
