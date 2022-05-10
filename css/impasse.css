@@ -1,22 +1,114 @@
 /* Fonts */
 @font-face {
-  font-family: 'Josefin Sans';
-  src: url('../fonts/JosefinSans-Regular.ttf') format('truetype');
+  font-family: "Josefin Sans";
+  src: url("../fonts/JosefinSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Iconic';
-  src: url('../fonts/Iconic-Fill.ttf') format('truetype');
+  font-family: "Iconic";
+  src: url("../fonts/Iconic-Fill.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 /* Reset CSS */
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
 
-* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; }
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
 p {
   margin: 13px 0;
@@ -29,12 +121,14 @@ strong {
 p {
 }
 
-html, body {
+html,
+body {
   background-color: #111111;
-  color: #FFF;
+  color: #fff;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -43,6 +137,8 @@ html, body {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  /* Prevent move of the whole window on drag gesture */
+  overflow: hidden;
 }
 
 /* A single cell (including margin) is 60px x 60px */
@@ -59,7 +155,7 @@ html, body {
 
   position: relative;
 
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   text-align: center;
 }
 
@@ -110,9 +206,14 @@ html, body {
   height: 180px;
   line-height: 60px;
   position: relative;
-  background: -webkit-linear-gradient(top, #B8B8B8 0%, #D5D5D5 50%, #B8B8B8 100%);
-  background: -moz-linear-gradient(top, #B8B8B8 0%, #D5D5D5 50%, #B8B8B8 100%);
-  background: linear-gradient(to bottom, #B8B8B8 0%, #D5D5D5 50%, #B8B8B8 100%);
+  background: -webkit-linear-gradient(
+    top,
+    #b8b8b8 0%,
+    #d5d5d5 50%,
+    #b8b8b8 100%
+  );
+  background: -moz-linear-gradient(top, #b8b8b8 0%, #d5d5d5 50%, #b8b8b8 100%);
+  background: linear-gradient(to bottom, #b8b8b8 0%, #d5d5d5 50%, #b8b8b8 100%);
   overflow: hidden; /* hide instances of blocks outside of the board */
 }
 
@@ -139,11 +240,11 @@ html, body {
   background-color: #454545;
 }
 #impasse .level_progress .point.completed {
-  background-color: #9B9B9B;
+  background-color: #9b9b9b;
 }
 #impasse .level_progress .point.active {
-  background-color: #FFFFFF;
-  box-shadow: 0px 0px 10px #FFFFFF;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px #ffffff;
 }
 
 /* Entities */
@@ -156,14 +257,14 @@ html, body {
   top: 0;
   left: 0;
 
-  font-family: 'Iconic';
+  font-family: "Iconic";
   font-size: 28px;
   text-align: center;
   text-indent: 0;
 
   color: #000000;
   border-radius: 50%;
-  border:#000000 4px solid; /* outer border */
+  border: #000000 4px solid; /* outer border */
 
   -webkit-transition-property: left, top;
   -webkit-transition-duration: 0.1s;
@@ -189,81 +290,81 @@ html, body {
 }
 
 #impasse .entity.player {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 #impasse .entity.player:before {
-  content: '\2795'; /* plus */
+  content: "\2795"; /* plus */
 }
 
 #impasse .entity.static {
-  background-color: #7C7C7C;
+  background-color: #7c7c7c;
 }
 
 #impasse .entity.orange_up_block {
-  background-color: #FDB657;
+  background-color: #fdb657;
 }
 #impasse .entity.orange_up_block:before {
-  content: '\2191'; /* up arrow */
+  content: "\2191"; /* up arrow */
 }
 
 #impasse .entity.purple_down_block {
   background-color: #a379ff;
 }
 #impasse .entity.purple_down_block:before {
-  content: '\2193'; /* down arrow */
+  content: "\2193"; /* down arrow */
 }
 
 #impasse .entity.yellow_up_block {
-  background-color: #FFF46B;
+  background-color: #fff46b;
 }
 #impasse .entity.yellow_up_block:before {
-  content: '\2191'; /* up arrow */
+  content: "\2191"; /* up arrow */
 }
 
 #impasse .entity.blue_down_block {
-  background-color: #1299FF;
+  background-color: #1299ff;
 }
 #impasse .entity.blue_down_block:before {
-  content: '\2193'; /* up arrow */
+  content: "\2193"; /* up arrow */
 }
 
 #impasse .entity.blue_minus_block {
-  background-color: #6CFAFF;
+  background-color: #6cfaff;
 }
 #impasse .entity.blue_minus_block:before {
-  content: '\2796'; /* minus */
+  content: "\2796"; /* minus */
 }
 
 #impasse .entity.win_block {
-  background-color: #9CDC69;
+  background-color: #9cdc69;
 }
 #impasse .entity.win_block:before {
-  content: '\2717'; /* tick */
+  content: "\2717"; /* tick */
 }
 
 #impasse .entity.pink_minus_block {
-  background-color: #FC68B2;
+  background-color: #fc68b2;
 }
 #impasse .entity.pink_minus_block:before {
-  content: '\2796'; /* minus */
+  content: "\2796"; /* minus */
 }
 
 #impasse .entity.red_x_block {
-  background-color: #CB1600;
+  background-color: #cb1600;
 }
 #impasse .entity.red_x_block:before {
-  content: '\2713'; /* cross */
+  content: "\2713"; /* cross */
 }
 
 #impasse .entity.green_o_block {
-  background-color: #25B457;
+  background-color: #25b457;
   /* "filled circle" char does not use font from Iconic set */
   /* so its size is a bit different */
   line-height: 34px;
   font-size: 40px;
 }
 #impasse .entity.green_o_block:before {
-  content: '\25CF'; /* filled circle */
+  content: "\25CF"; /* filled circle */
 }
 
 #impasse .entity.hideable.hidden {
@@ -274,19 +375,19 @@ html, body {
   -moz-transform: scale(1.23);
   transform: scale(1.23);
   background-color: transparent;
-  border:#000000 2px dashed; /* outer border */
+  border: #000000 2px dashed; /* outer border */
 }
 #impasse .entity.hideable.hidden:before {
-  content: '';
+  content: "";
 }
 
 #impasse .entity.covered {
   -webkit-transform: scale(1.23);
   background-color: transparent;
-  border:#000000 3px solid; /* outer border */
+  border: #000000 3px solid; /* outer border */
 }
 #impasse .entity.covered:before {
-  content: '';
+  content: "";
 }
 
 /* Non-game related styles */
@@ -298,7 +399,7 @@ html, body {
   border-radius: 5px;
 
   background-color: #212121;
-  color: #9D9D9D;
+  color: #9d9d9d;
 
   line-height: 18px;
   font-size: 13px;
